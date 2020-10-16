@@ -6,8 +6,8 @@ Criar um ambiente visual para meditação e concentração com ativação visual
 
 <h3><strong>Tarefas</strong></h3>
 
-- [ ] Montagem do ambiente
-- [ ] Estrutura de intenção meditativa
+- [x] Montagem do ambiente
+- [x] Estrutura de intenção meditativa
 - [ ] Configuração de velocidade
 - [ ] Portabilidade para outras plataformas
 
