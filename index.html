@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>✠ Mandala — Meditação Visual &amp; Solfeggio</title>
+  <meta name="description" content="Ambiente visual imersivo para meditação e concentração com mandalas, intenção meditativa e frequências Solfeggio." />
+  <meta name="theme-color" content="#07070c" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./styles/main.css" />
+</head>
+<body>
+  <!-- Palco Visual com Crossfade GPU -->
+  <main id="stage" class="stage" aria-label="Ativação visual por mandalas">
+    <img id="layer-a" class="stage-layer is-active" alt="" decoding="async" />
+    <img id="layer-b" class="stage-layer" alt="" decoding="async" />
+    <div class="stage-vignette"></div>
+  </main>
+
+  <!-- Overlay Superior: Intenção & Códigos -->
+  <header id="intention-overlay" class="intention-overlay" aria-live="polite">
+    <span id="intention-text" class="intention-text"></span>
+    <span id="code-display" class="code-display">DEUS SEJA LOUVADO</span>
+  </header>
+
+  <!-- Badge do Timer -->
+  <div id="timer-badge" class="timer-badge" hidden aria-live="off">00:00</div>
+
+  <!-- Dock Flutuante Minimalista -->
+  <nav class="dock" aria-label="Controles de meditação">
+    <button id="btn-prev" class="icon-btn" type="button" title="Mandala anterior (←)" aria-label="Anterior">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+
+    <button id="btn-play" class="icon-btn" type="button" title="Pausar / Reproduzir (Espaço)" aria-label="Pausar">
+      <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+    </button>
+
+    <button id="btn-next" class="icon-btn" type="button" title="Próxima mandala (→)" aria-label="Próxima">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+
+    <span class="dock-divider" aria-hidden="true"></span>
+
+    <button id="btn-audio" class="icon-btn" type="button" title="Ativar / Silenciar Solfeggio (M)" aria-label="Áudio Solfeggio">
+      <span class="sound-dot" aria-hidden="true"></span>
+      <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+      <span id="audio-freq-label" class="freq-pill">639 Hz</span>
+    </button>
+
+    <span class="dock-divider" aria-hidden="true"></span>
+
+    <button id="btn-zen" class="icon-btn" type="button" title="Modo Zen (H)" aria-label="Modo Zen">
+      <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    </button>
+
+    <button id="btn-fullscreen" class="icon-btn" type="button" title="Tela cheia (F)" aria-label="Tela cheia">
+      <svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+    </button>
+
+    <button id="btn-settings" class="icon-btn" type="button" title="Configurações" aria-label="Configurações">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </nav>
+
+  <!-- Drawer Lateral de Configurações -->
+  <div id="drawer-backdrop" class="drawer-backdrop"></div>
+  <aside id="drawer" class="drawer" aria-label="Configurações do ambiente meditativo">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span class="drawer-symbol" aria-hidden="true">✠</span>
+        <div>
+          <h1>Mandala</h1>
+          <p>Ambiente Meditativo &amp; Solfeggio</p>
+        </div>
+      </div>
+      <button id="btn-close-drawer" class="icon-btn" type="button" aria-label="Fechar">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- Coleção Visual -->
+      <section class="panel-section">
+        <div class="section-label">
+          <span>Coleção Visual</span>
+        </div>
+        <div id="collection-grid" class="chip-grid"></div>
+      </section>
+
+      <!-- Velocidade -->
+      <section class="panel-section">
+        <div class="section-label">
+          <span>Velocidade da Transição</span>
+          <span id="speed-value" class="section-value">1.5s</span>
+        </div>
+        <input id="speed-slider" class="range-input" type="range" min="80" max="8000" step="20" value="1500" />
+        <div id="speed-presets" class="chip-grid cols-3"></div>
+      </section>
+
+      <!-- Frequência Solfeggio -->
+      <section class="panel-section">
+        <div class="section-label">
+          <span>Frequência Solfeggio (Web Audio)</span>
+        </div>
+        <div id="freq-grid" class="chip-grid"></div>
+        <div class="section-label" style="margin-top: 6px;">
+          <span>Volume</span>
+          <span id="volume-value" class="section-value">30%</span>
+        </div>
+        <input id="volume-slider" class="range-input" type="range" min="0" max="100" step="1" value="30" />
+      </section>
+
+      <!-- Intenção Meditativa -->
+      <section class="panel-section">
+        <div class="section-label">
+          <span>Intenção Meditativa</span>
+        </div>
+        <input
+          id="intention-input"
+          class="text-input"
+          type="text"
+          maxlength="80"
+          placeholder="Ex.: Paz interior, clareza e gratidão..."
+        />
+      </section>
+
+      <!-- Timer -->
+      <section class="panel-section">
+        <div class="section-label">
+          <span>Timer de Sessão</span>
+        </div>
+        <div id="timer-grid" class="chip-grid cols-3"></div>
+      </section>
+
+      <!-- Opções Visuais -->
+      <section class="panel-section">
+        <div class="section-label">
+          <span>Preferências</span>
+        </div>
+        <div class="toggle-list">
+          <label class="toggle-row">
+            <span>Exibir códigos de ativação</span>
+            <input id="chk-codes" type="checkbox" checked />
+          </label>
+          <label class="toggle-row">
+            <span>Mandala inteira (sem corte)</span>
+            <input id="chk-fit" type="checkbox" />
+          </label>
+          <label class="toggle-row">
+            <span>Ordem aleatória</span>
+            <input id="chk-shuffle" type="checkbox" />
+          </label>
+          <label class="toggle-row">
+            <span>Efeito respiração (zoom suave)</span>
+            <input id="chk-breathing" type="checkbox" checked />
+          </label>
+          <label class="toggle-row">
+            <span>Rotação lenta</span>
+            <input id="chk-rotating" type="checkbox" />
+          </label>
+          <label class="toggle-row">
+            <span>Sincronizar Solfeggio com coleção</span>
+            <input id="chk-sync-freq" type="checkbox" checked />
+          </label>
+        </div>
+      </section>
+
+      <!-- Atalhos -->
+      <section class="panel-section">
+        <div class="section-label">
+          <span>Atalhos</span>
+        </div>
+        <div class="shortcuts">
+          <div><kbd>Espaço</kbd> Pausar</div>
+          <div><kbd>←</kbd><kbd>→</kbd> Navegar</div>
+          <div><kbd>M</kbd> Áudio</div>
+          <div><kbd>F</kbd> Tela cheia</div>
+          <div><kbd>H</kbd> Modo Zen</div>
+          <div><kbd>Esc</kbd> Fechar</div>
+        </div>
+      </section>
+    </div>
+  </aside>
+
+  <!-- Toast de Feedback -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="./scripts/app.js"></script>
+</body>
+</html>

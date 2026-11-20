@@ -1,0 +1,18 @@
+{
+  "name": "Mandala — Meditação Visual & Solfeggio",
+  "short_name": "Mandala",
+  "description": "Ambiente imersivo para meditação e concentração com ativação visual por mandalas, intenção meditativa e frequências Solfeggio.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#07070c",
+  "theme_color": "#07070c",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
