@@ -504,6 +504,45 @@ body.zen-mode .timer-badge {
   cursor: pointer;
 }
 
+.icon-btn[hidden] {
+  display: none;
+}
+
+.install-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent);
+  background: rgba(167, 139, 250, 0.2);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.install-btn:hover {
+  background: rgba(167, 139, 250, 0.34);
+}
+
+.install-btn:active {
+  transform: scale(0.98);
+}
+
+.install-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* Shortcuts */
 .shortcuts {
   display: grid;

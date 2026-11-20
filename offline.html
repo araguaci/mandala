@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✠ Mandala — Modo Offline</title>
+  <meta name="theme-color" content="#07070c" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at center, #141428 0%, #07070c 72%);
+      color: #f8fafc;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      padding: 24px;
+      text-align: center;
+    }
+    .card {
+      max-width: 420px;
+      padding: 36px 28px;
+      border-radius: 20px;
+      background: rgba(14, 14, 24, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    }
+    .symbol {
+      font-size: 3rem;
+      color: #c084fc;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+    p {
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: rgba(248, 250, 252, 0.72);
+      margin-bottom: 24px;
+    }
+    button {
+      padding: 11px 24px;
+      border-radius: 999px;
+      border: 1px solid rgba(167, 139, 250, 0.6);
+      background: rgba(167, 139, 250, 0.22);
+      color: #f8fafc;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      background: rgba(167, 139, 250, 0.35);
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="symbol" aria-hidden="true">✠</div>
+    <h1>Você está offline</h1>
+    <p>
+      Alguns recursos ainda não foram salvos no cache local.
+      Reconecte-se à internet e tente novamente para carregar todas as mandalas.
+    </p>
+    <button type="button" onclick="window.location.reload()">Tentar novamente</button>
+  </main>
+</body>
+</html>

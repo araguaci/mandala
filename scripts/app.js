@@ -58,6 +58,9 @@ class MandalaApp {
     this.sessionInterval = null;
     this.sessionSecondsLeft = 0;
     this.preloaded = new Set();
+    this.deferredInstallPrompt = null;
+
+    this._applyUrlShortcuts();
 
     this.el = {
       stage: document.getElementById('stage'),
@@ -78,6 +81,9 @@ class MandalaApp {
       audioLabel: document.getElementById('audio-freq-label'),
       btnZen: document.getElementById('btn-zen'),
       btnFullscreen: document.getElementById('btn-fullscreen'),
+      btnInstallDock: document.getElementById('btn-install-dock'),
+      btnInstallDrawer: document.getElementById('btn-install-drawer'),
+      pwaInstallSection: document.getElementById('pwa-install-section'),
       btnSettings: document.getElementById('btn-settings'),
       // Drawer
       drawer: document.getElementById('drawer'),
@@ -107,7 +113,57 @@ class MandalaApp {
     this._startSlideshow();
     this._startCodes();
     this._resetIdleTimer();
+    this._setupPwaInstall();
     this._registerServiceWorker();
+    if (this._startInZen) this.toggleZen(true);
+  }
+
+  _applyUrlShortcuts() {
+    const params = new URLSearchParams(window.location.search);
+    const col = params.get('collection');
+    if (col && (col === 'all' || COLLECTIONS[col])) {
+      this.state.collection = col;
+    }
+    const freq = Number(params.get('freq'));
+    if (SOLFEGGIO_FREQUENCIES.some((f) => f.hz === freq)) {
+      this.state.frequency = freq;
+    }
+    if (params.get('zen') === '1') {
+      this._startInZen = true;
+    }
+  }
+
+  _setupPwaInstall() {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.deferredInstallPrompt = e;
+      if (this.el.btnInstallDock) this.el.btnInstallDock.hidden = false;
+      if (this.el.pwaInstallSection) this.el.pwaInstallSection.hidden = false;
+    });
+
+    const triggerInstall = async () => {
+      if (!this.deferredInstallPrompt) return;
+      this.deferredInstallPrompt.prompt();
+      const { outcome } = await this.deferredInstallPrompt.userChoice;
+      if (outcome === 'accepted') {
+        this.showToast('Mandala instalado com sucesso');
+      }
+      this.deferredInstallPrompt = null;
+      if (this.el.btnInstallDock) this.el.btnInstallDock.hidden = true;
+      if (this.el.pwaInstallSection) this.el.pwaInstallSection.hidden = true;
+    };
+
+    this.el.btnInstallDock?.addEventListener('click', triggerInstall);
+    this.el.btnInstallDrawer?.addEventListener('click', triggerInstall);
+
+    window.addEventListener('appinstalled', () => {
+      this.deferredInstallPrompt = null;
+      if (this.el.btnInstallDock) this.el.btnInstallDock.hidden = true;
+      if (this.el.pwaInstallSection) this.el.pwaInstallSection.hidden = true;
+    });
+
+    window.addEventListener('offline', () => this.showToast('Modo offline ativo'));
+    window.addEventListener('online', () => this.showToast('Conexão restabelecida'));
   }
 
   _buildDynamicControls() {
